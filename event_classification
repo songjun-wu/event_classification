@@ -1,0 +1,32 @@
+import numpy as np
+import pandas as pd
+import warnings
+import datetime
+from datetime import date, timedelta
+
+# read time series and detected events
+books =pd.read_excel('D:/discharge.xlsx')
+times = pd.read_excel('D:/event.xlsx')
+
+# initialize
+rising_period = pd.DataFrame()
+recession_period = pd.DataFrame()
+baseflow = pd.DataFrame()
+
+# classification
+for i in range(0, len(times)):
+    begin = times.iloc[i]['begin']
+    end = times.iloc[i]['end']
+    peak = times.iloc[i]['peak'] + timedelta(hours=4)
+    #rising_period = rising_period.join((pd.date_range(begin, end)))
+    for j in range(0, len(books)):
+        current_time = books.iloc[j]['Time']
+        info = books.iloc[j].append(times.iloc[i])
+        if current_time>= begin and current_time<= peak:
+            rising_period = rising_period.append(info, ignore_index=True)
+        if current_time > peak and current_time <= end:
+            recession_period = recession_period.append(info, ignore_index=True)
+
+# write output
+rising_period.to_excel('D:/rising_period.xlsx')
+recession_period.to_excel('D:/recession_period.xlsx')
