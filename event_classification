@@ -20,7 +20,7 @@ for i in range(0, len(times)):
     peak = times.iloc[i]['peak'] + timedelta(hours=4)
     #rising_period = rising_period.join((pd.date_range(begin, end)))
     for j in range(0, len(books)):
-        current_time = books.iloc[j]['Time']
+        current_time = books.iloc[j]['time']
         info = books.iloc[j].append(times.iloc[i])
         if current_time>= begin and current_time<= peak:
             rising_period = rising_period.append(info, ignore_index=True)
@@ -28,5 +28,5 @@ for i in range(0, len(times)):
             recession_period = recession_period.append(info, ignore_index=True)
 
 # write output
-rising_period.to_excel('D:/rising_period.xlsx')
-recession_period.to_excel('D:/recession_period.xlsx')
+rising_period.to_excel('D:/stormflow.xlsx')
+recession_period.to_excel('D:/elevated baseflow.xlsx')
